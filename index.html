@@ -634,7 +634,12 @@ h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color
 .board-status{text-align:center;padding:10px 12px;font-weight:900;color:#76529b;background:#fff4fb;font-size:.91rem}
 @media(min-width:800px){.container{max-width:1040px;margin:auto;display:grid;grid-template-columns:1fr 1fr;align-items:start}.container header,.container .tts-warn{grid-column:1/-1}.rainbow-board{grid-column:1;grid-row:3/6;max-width:none}.board-sky{height:490px}.progress-strip,.card{grid-column:2}.board-pip{font-size:3.2rem}.rainbow-step{width:60px;height:36px}}
 @media(max-width:390px){.board-sky{height:265px}.rainbow-step{width:43px;height:26px}.board-rainbow{font-size:5.5rem}.board-castle{font-size:2.7rem}}
-.board-sky{height:450px;background:#a9dbed}.meadow-landscape{position:absolute;inset:0;width:100%;height:100%;display:block}.rainbow-step{width:49px;height:31px;background:linear-gradient(#f9e8fd,#bca3df);border:2px solid #8b6cae;box-shadow:0 6px 0 #78618e,0 10px 12px #45395d66;z-index:1}.board-pip{z-index:3;text-shadow:0 3px 4px #fff;font-size:3rem}.board-sky:before{display:none}@media(min-width:800px){.board-sky{height:620px}}@media(max-width:390px){.board-sky{height:365px}.rainbow-step{width:39px;height:27px}.board-pip{font-size:2.4rem}}</style>
+.board-sky{height:450px;background:#a9dbed}.meadow-landscape{position:absolute;inset:0;width:100%;height:100%;display:block}.rainbow-step{width:49px;height:31px;background:linear-gradient(#f9e8fd,#bca3df);border:2px solid #8b6cae;box-shadow:0 6px 0 #78618e,0 10px 12px #45395d66;z-index:1}.board-pip{z-index:3;text-shadow:0 3px 4px #fff;font-size:3rem}.board-sky:before{display:none}@media(min-width:800px){.board-sky{height:620px}}@media(max-width:390px){.board-sky{height:365px}.rainbow-step{width:39px;height:27px}.board-pip{font-size:2.4rem}}/* Fit all ten QWERTY keys on narrow phones without wrapping. */
+.kb-row{gap:clamp(2px,1vw,5px)}
+.kb-key{width:clamp(23px,7.5vw,42px);min-width:0}
+.kb-key.kb-del{width:clamp(38px,11vw,60px)!important}
+@media(max-width:380px){.keyboard{gap:5px}.kb-key{font-size:.96rem;padding:10px 0}}
+</style>
 </head>
 <body>
 <!-- ── start screen ── -->
@@ -777,9 +782,9 @@ const STREAK_MSGS = ['','','2 in a row! 🔥','3 in a row! 🚀','4 in a row! �
   '5 in a row! 🌟','6 in a row! 💥','7 in a row! 🏆','8 in a row! 👑','9 in a row! 🎉','10 in a row! 🌋'];
 
   const KB_ROWS = [
-  ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'],
-  ['j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'],
-  ['s', 't', 'u', 'v', 'w', 'x', 'y', 'z', '⌫'],
+  ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+  ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+  ['z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'],
 ];
 
 // ══════════════════════════════════════════════════════
