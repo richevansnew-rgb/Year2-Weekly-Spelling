@@ -5,14 +5,16 @@
 // ─────────────────────────────────────────────────────────────
 
 const SPELLING_WORDS = [
-  { word: "suppose ",   hint: "I think",   emoji: "🤔" },
-  { word: "pressure ",  hint: "stress",  emoji: "😫" },
-  { word: "possible ",    hint: "maybe",    emoji: "🤔" },
-  { word: "possess ",   hint: "to own",       emoji: "" },
-  { word: "opposite ",     hint: "totally different",       emoji: "☯" },
-  { word: "occasion ",     hint: "a special event",       emoji: "🎂" },
-  { word: "grammar ",   hint: "rules of language",    emoji: "📕" },
-  { word: "disappear ",    hint: "vanish",           emoji: "💨" },
+  { word: "age", hint: "How old you are", emoji: "🎂" },
+  { word: "huge", hint: "Really, really big", emoji: "🐘" },
+  { word: "change", hint: "To make something different", emoji: "🔄" },
+  { word: "charge", hint: "To fill a battery with power", emoji: "🔋" },
+  { word: "village", hint: "A small place where people live", emoji: "🏡" },
+  { word: "strange", hint: "Unusual or a bit odd", emoji: "👽" },
+  { word: "badge", hint: "Something you pin onto your clothes", emoji: "🏅" },
+  { word: "edge", hint: "The outside border of something", emoji: "📐" },
+  { word: "bridge", hint: "Something you cross over a river", emoji: "🌉" },
+  { word: "dodge", hint: "To move quickly out of the way", emoji: "🏃" }
 ];
 
 // The date of this week's test — shown on the start screen.
