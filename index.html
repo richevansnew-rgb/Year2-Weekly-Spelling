@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Isabella's Spelling Challenge! 🌟</title>
+<title>Isabella's Magic Meadow! 🌟</title>
 <script src="words.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -592,17 +592,43 @@ color: var(--dark) !important;
 .season-summer .start-test-date { color:#c08000; }
 .season-autumn .start-test-date { color:#a04000; }
 .season-winter .start-test-date { color:#2060a0; }
+
+/* Magic Meadow — original fantasy palette and emoji artwork. */
+:root{--yellow:#ffe08a;--mint:#82d6b6;--dark:#49356d}
+body.season-autumn,body.season-spring,body.season-summer,body.season-winter{background:radial-gradient(ellipse at 12% 12%,#ffe2f5,transparent 45%),radial-gradient(ellipse at 85% 25%,#dad5ff,transparent 45%),linear-gradient(170deg,#e8faff,#fff0fb 55%,#e0f8de);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:auto 0 0;height:18vh;background:radial-gradient(ellipse at 50% 100%,#bcefc3,transparent 75%);pointer-events:none}
+h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color:#62418a;text-shadow:2px 3px 0 #f7c9e7}
+.hd-sub,.season-autumn .hd-sub,.season-spring .hd-sub,.season-summer .hd-sub,.season-winter .hd-sub{color:#8860a6}
+.card,.progress-strip{border:2px solid white;box-shadow:0 12px 30px rgba(103,72,140,.14)}
+.card{background:linear-gradient(160deg,#fff,#fff9fe 75%,#f5fff4);padding-top:16px}
+.card::before{display:none}
+.score-pill,.streak-pill{background:#fff0a9}
+.word-counter{color:#9578b1}
+.season-autumn .kb-key,.season-spring .kb-key,.season-summer .kb-key,.season-winter .kb-key{background:linear-gradient(140deg,#b18bea,#8964c8);box-shadow:0 4px 0 #65469a}
+.season-autumn .kb-key:active,.season-spring .kb-key:active,.season-summer .kb-key:active,.season-winter .kb-key:active{box-shadow:0 1px 0 #65469a}
+.btn-hint{background:#f3e8ff;color:#7852ac;box-shadow:0 3px 0 #d6bdec}
+.btn-check,.btn-start{background:linear-gradient(135deg,#7bd4b5,#43b99b);box-shadow:0 5px 0 #2d927b}
+.start-screen{background:radial-gradient(circle at 50% 10%,#fff2c7,transparent 45%),linear-gradient(160deg,#f6e8ff,#e9faff 60%,#e2f9df)}
+.start-title{color:#62418a;text-shadow:2px 3px 0 #f9cfe9}
+.meadow-art{position:relative;width:260px;height:150px;margin:0 auto;font-size:7rem;line-height:1;text-align:left;filter:drop-shadow(0 8px 8px #c9b0d4)}
+.meadow-art span{position:absolute;font-size:6rem;right:12px;bottom:3px;animation:meadowFloat 3s ease-in-out infinite}
+.meadow-art small{position:absolute;bottom:0;left:8px;font-size:1.3rem;white-space:nowrap}
+.meadow-buddy{display:flex;justify-content:center;align-items:center;gap:8px;font-size:1.8rem;margin-bottom:7px;animation:meadowFloat 3s ease-in-out infinite}
+.meadow-buddy small{font-size:.8rem;font-weight:800;color:#8b65a5}
+@keyframes meadowFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media(prefers-reduced-motion:reduce){.meadow-art span,.meadow-buddy{animation:none}}
+@media(max-width:380px){.meadow-art{height:120px;font-size:5rem}.meadow-art span{font-size:4.5rem}}
 </style>
 </head>
 <body>
 <!-- ── start screen ── -->
 <div class="start-screen" id="start-screen">
-  <div class="start-icon" id="start-icon">🌸</div>
+  <div class="meadow-art" aria-hidden="true">🌈<span>🦄</span><small>🌸 🦋 🌼</small></div><div class="start-icon" id="start-icon">✨</div>
   <div class="start-title">Isabella's<br>Spelling Challenge!</div>
   <div class="start-word-count" id="start-word-count">8 words this week</div>
   <div class="start-test-date" id="start-test-date">📅 Test: 28 April 2025</div>
   <div class="start-word-preview" id="start-word-preview"></div>
-  <button class="btn-start" onclick="startGame()">Let's Go! 🔊</button>
+  <button class="btn-start" onclick="startGame()">Enter the Meadow! ✨</button>
 </div>
 
 <div id="particles"></div>
@@ -610,7 +636,7 @@ color: var(--dark) !important;
 <div class="container">
   <header>
     <div class="hd-icon" id="hd-icon">🌸</div>
-    <h1>Isabella's Spelling Challenge!</h1>
+    <h1>Isabella's Magic Meadow!</h1>
     <div class="hd-sub" id="hd-sub">This week's words 📚</div>
   </header>
 
@@ -628,7 +654,7 @@ color: var(--dark) !important;
   </div>
 
   <div class="card" id="main-card">
-    <div class="word-counter" id="word-counter">WORD 1 OF 8</div>
+    <div class="meadow-buddy" aria-hidden="true">🦄 <small>You can do it, Isabella! ✨</small></div><div class="word-counter" id="word-counter">WORD 1 OF 8</div>
 
     <!-- emoji + definition shown for every word -->
     <div class="word-definition" id="word-definition">
@@ -701,10 +727,10 @@ const SEASONS = {
     fireworks:['☀️','🌻','⭐','✨','🌊','🍦','💛'],
   },
   autumn: {
-    icon:'🍂', sub:'This week\'s words 📚',
-    particles:['🍂','🍁','🎃','🌰','🍄','🦔','🍎'],
+    icon:'🦄', sub:'Your magical spelling adventure ✨',
+    particles:['✨','🌸','🦋','🌷','🌼','💖','⭐'],
     chars:['🦔','🍁','🎃','🦉','🌰','🐿️','🍂','🦊'],
-    fireworks:['🍁','🍂','⭐','✨','🎃','🌰','🔥'],
+    fireworks:['🌈','💖','⭐','✨','🌸','🦋','🌟'],
   },
   winter: {
     icon:'❄️', sub:'This week\'s words 📚',
