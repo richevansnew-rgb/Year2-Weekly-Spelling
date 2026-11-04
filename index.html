@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ludovica's Spelling Challenge! 🌟</title>
+<title>Isabella's Spelling Challenge! 🌟</title>
 <script src="words.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -598,7 +598,7 @@ color: var(--dark) !important;
 <!-- ── start screen ── -->
 <div class="start-screen" id="start-screen">
   <div class="start-icon" id="start-icon">🌸</div>
-  <div class="start-title">Ludovica's<br>Spelling Challenge!</div>
+  <div class="start-title">Isabella's<br>Spelling Challenge!</div>
   <div class="start-word-count" id="start-word-count">8 words this week</div>
   <div class="start-test-date" id="start-test-date">📅 Test: 28 April 2025</div>
   <div class="start-word-preview" id="start-word-preview"></div>
@@ -610,7 +610,7 @@ color: var(--dark) !important;
 <div class="container">
   <header>
     <div class="hd-icon" id="hd-icon">🌸</div>
-    <h1>Ludovica's Spelling Challenge!</h1>
+    <h1>Isabella's Spelling Challenge!</h1>
     <div class="hd-sub" id="hd-sub">This week's words 📚</div>
   </header>
 
@@ -718,7 +718,7 @@ const PROMPTS_RIGHT = [
   'Woohoo! Correct!',
   'Brilliant spelling!',
   'You got it!',
-  'Fantastic, Ludovica!',
+  'Fantastic, Isabella!',
   'YES! Perfect!',
   'Superstar speller!',
   'Incredible!',
@@ -1418,11 +1418,11 @@ function celebrate() {
 
   let mainMsg = '';
   if (perfect) {
-    mainMsg = 'Ludovica, you spelled every word right with no hints! You\'re incredible! 👑';
+    mainMsg = 'Isabella, you spelled every word right with no hints! You\'re incredible! 👑';
   } else if (pct === 100) {
-    mainMsg = `Well done, Ludovica! All ${total} words correct! Next time try with no hints! 💡`;
+    mainMsg = `Well done, Isabella! All ${total} words correct! Next time try with no hints! 💡`;
   } else {
-    mainMsg = `Well done, Ludovica! You got ${score} out of ${total}!`;
+    mainMsg = `Well done, Isabella! You got ${score} out of ${total}!`;
   }
 
   const aimMsg = perfect ? '' : ' Next time, aim for ' + total + '/' + total + ' with no hints! 🎯';
