@@ -12,12 +12,12 @@
 #  fix pronunciation without breaking anything in the game.
 #  If there is no |, the same text is used for both.
 #
-#  Example — fix "Ludovica" pronunciation:
-#    "Fantastic, Ludovica!|Fantastic, Loo-do-VEE-ka!"
+#  Example — fix "Isabella" pronunciation:
+#    "Fantastic, Isabella!|Fantastic, Loo-do-VEE-ka!"
 #
 #  To update a pronunciation:
 #    1. Edit the spoken part (after |) in this script
-#    2. Delete the old file:  rm audio/encouragement/fantastic_ludovica.mp3
+#    2. Delete the old file:  rm audio/encouragement/fantastic_isabella.mp3
 #    3. Re-run:               ./generate-audio.sh
 #
 #  Usage:
@@ -44,7 +44,7 @@ PROMPTS_RIGHT=(
   "Woohoo! Correct!|Woohoo! Correct!"
   "Brilliant spelling!|Brilliant spelling!"
   "You got it!|You got it!"
-  "Fantastic, Ludovica!|Fantastic, Loo-do-VEE-ka!"
+  "Fantastic, Isabella!|Fantastic, Loo-do-VEE-ka!"
   "YES! Perfect!|YES! Perfect!"
   "Superstar speller!|Superstar speller!"
   "Incredible!|Incredible!"
