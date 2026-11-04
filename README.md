@@ -1,6 +1,6 @@
-# Ludovica's Spelling Challenge 🌟
+# Isabella's Spelling Challenge 🌟
 
-A personalised weekly spelling practice app for Ludovica.
+A personalised weekly spelling practice app for Isabella.
 
 ## How to update the words each week
 
@@ -38,15 +38,19 @@ git push
 
 1. Push this folder to a GitHub repository.
 2. Go to **Settings → Pages** and set the source to your main branch / root.
-3. Your game will be live at `https://sirioq.github.io/spelling/`
+3. Your game will be live at `https://richevansnew-rgb.github.io/Year2-Weekly-Spelling/`
 4. Each week, edit `words.js`, commit, and the live site updates automatically.
 
 ## How the game works
 
-1. Ludovica presses the 🔊 button to hear the word spoken aloud.
+1. Isabella presses the 🔊 button to hear the word spoken aloud.
 2. She can press it again as many times as she needs.
 3. She types the spelling using the on-screen keyboard (or a physical keyboard).
 4. She presses **Check** — instant feedback!
 5. If she's stuck she can press 💡 for the hint.
 6. She earns a star for every correct first attempt.
 7. After all words, a celebration screen shows her score.
+
+
+## Isabella's Year 2 version
+This fork adapts the original spelling game by sirioq, retaining the original interface and gameplay. Update `words.js` each week. New words without prerecorded audio use the browser's English text-to-speech fallback.
