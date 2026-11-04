@@ -618,6 +618,22 @@ h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color
 @keyframes meadowFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @media(prefers-reduced-motion:reduce){.meadow-art span,.meadow-buddy{animation:none}}
 @media(max-width:380px){.meadow-art{height:120px;font-size:5rem}.meadow-art span{font-size:4.5rem}}
+
+/* Rainbow adventure: a real ten-step illustrated game board */
+.rainbow-board{width:100%;max-width:480px;background:#fff8ff;border:3px solid #fff;border-radius:26px;overflow:hidden;box-shadow:0 12px 30px #7655a62c}
+.board-sky{height:310px;position:relative;overflow:hidden;background:radial-gradient(circle at 75% 15%,#fff9c8,transparent 34%),linear-gradient(#b9eaff 0%,#e8e4ff 45%,#b8efb6 82%,#72ca89 100%)}
+.board-sky:before{content:"";position:absolute;bottom:0;left:-10%;width:120%;height:65px;background:radial-gradient(ellipse at 30% 100%,#4cba70,transparent 75%),radial-gradient(ellipse at 80% 100%,#67c47e,transparent 75%)}
+.board-rainbow{position:absolute;top:-14px;right:6px;font-size:7rem;filter:drop-shadow(0 4px 5px #ffffff90)}
+.board-castle{position:absolute;top:22px;right:42px;font-size:3.6rem;filter:drop-shadow(0 5px 5px #7762b755)}
+.board-tree{position:absolute;top:52px;left:4px;font-size:4.5rem}
+.board-water{position:absolute;bottom:40px;right:12px;font-size:2.3rem}
+.board-flowers{position:absolute;bottom:5px;left:7px;font-size:1.3rem;letter-spacing:6px;white-space:nowrap}
+.rainbow-step{position:absolute;left:var(--x);bottom:var(--y);width:52px;height:29px;border-radius:50%;background:linear-gradient(#f8e6ff,#cba9e6);border:2px solid #9974bb;box-shadow:0 6px 0 #9475b0,0 8px 8px #49356d35;display:flex;align-items:center;justify-content:center;color:#5e347c;font:800 17px Nunito,sans-serif;transition:background .3s}
+.rainbow-step.done{background:linear-gradient(#fff6bd,#ffcf68);border-color:#e3a544;box-shadow:0 6px 0 #d9a44f,0 0 15px #fff2a8}
+.board-pip{position:absolute;font-size:2.6rem;left:var(--pip-x,10%);bottom:var(--pip-y,8px);transition:left .55s cubic-bezier(.2,1.6,.5,1),bottom .55s cubic-bezier(.2,1.6,.5,1);filter:drop-shadow(0 4px 3px #52406850);z-index:2}
+.board-status{text-align:center;padding:10px 12px;font-weight:900;color:#76529b;background:#fff4fb;font-size:.91rem}
+@media(min-width:800px){.container{max-width:1040px;margin:auto;display:grid;grid-template-columns:1fr 1fr;align-items:start}.container header,.container .tts-warn{grid-column:1/-1}.rainbow-board{grid-column:1;grid-row:3/6;max-width:none}.board-sky{height:490px}.progress-strip,.card{grid-column:2}.board-pip{font-size:3.2rem}.rainbow-step{width:60px;height:36px}}
+@media(max-width:390px){.board-sky{height:265px}.rainbow-step{width:43px;height:26px}.board-rainbow{font-size:5.5rem}.board-castle{font-size:2.7rem}}
 </style>
 </head>
 <body>
@@ -644,7 +660,7 @@ h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color
     ⚠️ Text-to-speech isn't available in this browser. Try Chrome or Safari!
   </div>
 
-  <div class="progress-strip">
+  <section class="rainbow-board" aria-label="Pip's rainbow adventure"><div class="board-sky"><span class="board-rainbow">🌈</span><span class="board-castle">🏰</span><span class="board-tree">🌳</span><span class="board-water">💦</span><span class="board-flowers">🌸 🌷 🌼 🦋 🌸</span><div class="rainbow-steps" id="rainbow-steps"></div><span class="board-pip" id="board-pip">🦄</span></div><div class="board-status" id="board-status">Help Pip climb 10 steps to the rainbow!</div></section><div class="progress-strip">
     <div class="strip-top">
       <span class="strip-label" id="strip-label">Word 1 of 8</span>
       <span class="score-pill">⭐ <span id="score-count">0</span></span>
@@ -783,12 +799,32 @@ let currentSeason = 'spring';
 // ══════════════════════════════════════════════════════
 //  BOOT
 // ══════════════════════════════════════════════════════
+
+const rainbowCoords=[[8,9],[22,16],[39,23],[56,30],[71,37],[61,46],[47,55],[33,64],[49,73],[66,82]];
+let rainbowPosition=0, rainbowSession=0, rainbowAttempts={};
+function drawRainbow(){
+ const area=document.getElementById('rainbow-steps');if(!area)return;
+ area.innerHTML='';
+ rainbowCoords.forEach(([x,y],i)=>{const stone=document.createElement('span');stone.className='rainbow-step'+(i<rainbowPosition?' done':'');stone.textContent=i+1;stone.style.setProperty('--x',x+'%');stone.style.setProperty('--y',y+'%');area.appendChild(stone)});
+ const pip=document.getElementById('board-pip');const coord=rainbowPosition?rainbowCoords[rainbowPosition-1]:[2,1];
+ pip.style.setProperty('--pip-x',coord[0]+'%');pip.style.setProperty('--pip-y',(coord[1]+6)+'%');
+ document.getElementById('board-status').textContent=rainbowPosition===10?'🌈 Pip reached the rainbow castle!':rainbowPosition+' / 10 steps — '+(rainbowPosition?'Keep climbing! ✨':'Help Pip climb to the rainbow!');
+}
+function recordRainbow(word,ok){
+ try{const key='isabella-magic-meadow-history-v1';const data=JSON.parse(localStorage.getItem(key)||'{}');const row=data[word]||{correct:0,wrong:0,dates:[]};row[ok?'correct':'wrong']++;row.dates.push({date:new Date().toISOString().slice(0,10),correct:ok});data[word]=row;localStorage.setItem(key,JSON.stringify(data))}catch(e){}
+}
+function rainbowReset(){
+ rainbowPosition=0;rainbowAttempts={};rainbowSession++;
+ words=shuffle([...SPELLING_WORDS]);wordIdx=0;score=0;streak=0;missed=[];hints=0;updateScore();updateStreak();buildStars();drawRainbow();showWord();
+}
+
 function init() {
   if (typeof SPELLING_WORDS === 'undefined' || !SPELLING_WORDS.length) {
     alert('⚠️  No words found! Make sure words.js is in the same folder as index.html.');
     return;
   }
   words = shuffle([...SPELLING_WORDS]);
+  drawRainbow();
 
   const season = (typeof SEASON !== 'undefined' && SEASONS[SEASON]) ? SEASON : 'spring';
   currentSeason = season;
@@ -1257,6 +1293,8 @@ function checkSpelling() {
   const correct = attempt === word;
 
   if (correct) {
+    if(!rainbowAttempts[word]){recordRainbow(word,true);rainbowAttempts[word]=true;}
+    rainbowPosition=Math.min(10,rainbowPosition+1);drawRainbow();
     renderBoxes('correct');
     if (firstTry) { score++; streak++; earnStar(wordIdx); }
     else          { streak = 0; }
@@ -1268,8 +1306,10 @@ function checkSpelling() {
     firework();
     speakEncouragement(msg);
     wordIdx++;
-    feedbackTimer = setTimeout(() => { hideFeedback(); showWord(); }, 2600);
+    feedbackTimer = setTimeout(() => { hideFeedback(); if(rainbowPosition===10){celebrate()}else{if(wordIdx>=words.length){words=shuffle([...SPELLING_WORDS]);wordIdx=0;}showWord();} }, 2600);
   } else {
+    if(!rainbowAttempts[word]){recordRainbow(word,false);rainbowAttempts[word]=true;}
+    rainbowPosition=0;drawRainbow();
     renderBoxes('wrong');
     streak = 0; updateStreak();
     if (firstTry) missed.push(words[wordIdx]);
@@ -1282,6 +1322,7 @@ function checkSpelling() {
 }
 
 function tryAgain() {
+  if(rainbowPosition===0 && !firstTry){hideFeedback();rainbowReset();return;}
   if (feedbackTimer) clearTimeout(feedbackTimer);
   hideFeedback();
   typed = '';
@@ -1291,6 +1332,8 @@ function tryAgain() {
 }
 
 function skipWord() {
+  if(words[wordIdx])recordRainbow(words[wordIdx].word.toLowerCase(),false);
+  rainbowReset();return;
   if (feedbackTimer) clearTimeout(feedbackTimer);
   hideFeedback();
   if (firstTry) missed.push(words[wordIdx]);
@@ -1436,7 +1479,7 @@ function celebrate() {
   document.getElementById('celeb-icon').textContent =
     perfect ? '👑' : pct === 100 ? '🌟' : pct >= 70 ? '🌟' : '💪';
   document.getElementById('celeb-title').textContent =
-    perfect ? '🎆 PERFECT! 🎆' : pct === 100 ? 'All correct! 🌟' : pct >= 70 ? 'Great Job! 🌟' : 'Keep Practising! 💪';
+    perfect ? '🌈 RAINBOW CASTLE! 🌈' : pct === 100 ? 'All correct! 🌟' : pct >= 70 ? 'Great Job! 🌟' : 'Keep Practising! 💪';
   document.getElementById('celeb-score').textContent =
     `${score} / ${total} correct ⭐`;
   document.getElementById('celeb-hints').textContent =
@@ -1480,6 +1523,7 @@ function launchConfetti() {
 
 function playAgain() {
   document.getElementById('celebration').classList.remove('show');
+  rainbowPosition=0;rainbowAttempts={};drawRainbow();
   words = shuffle([...SPELLING_WORDS]);
   wordIdx=0; score=0; streak=0; missed=[]; hints=0;
   buildStars(); updateScore(); updateStreak();
@@ -1497,6 +1541,7 @@ function playAgain() {
 
 function retryMissed() {
   document.getElementById('celebration').classList.remove('show');
+  rainbowPosition=0;rainbowAttempts={};drawRainbow();
   const uniqueMissed = [...new Set(missed.map(w => w.word))];
   words = shuffle(SPELLING_WORDS.filter(w => uniqueMissed.includes(w.word)));
   wordIdx=0; score=0; streak=0; missed=[]; hints=0;
