@@ -670,6 +670,19 @@ h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color
 .voice-settings button{border:0;border-radius:8px;background:#eee1fc;color:#62418a;padding:5px;font-weight:800;font-size:.7rem}
 @media(min-width:800px){.container{max-width:960px;grid-template-columns:1fr 1fr;column-gap:16px;row-gap:12px;padding:14px}.container header{grid-column:1/-1}.rainbow-board{grid-column:1;grid-row:2}.container .card{grid-column:2;grid-row:2;padding:20px}.bottom-controls{grid-column:1/-1;grid-row:3}.board-sky{height:490px}.rainbow-step{width:50px;height:32px;font-size:1rem}.bottom-controls .kb-key{width:48px}}
 @media(max-height:700px) and (max-width:799px){.board-sky{height:clamp(195px,39dvh,280px)}.container h1{font-size:1.1rem}.bottom-controls .kb-key{height:34px}.voice-settings{margin-top:4px}}
+
+/* Equal-sized left and right panels, full-height spelling panel on all game states */
+.container{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch}
+.rainbow-board,.container .card{height:100%;min-height:clamp(320px,49dvh,520px)}
+.container .card{display:flex;flex-direction:column;justify-content:flex-start;overflow:visible}
+.board-sky{height:calc(100% - 33px);min-height:290px}
+.board-status{min-height:33px;display:flex;align-items:center;justify-content:center}
+.container .card .feedback{z-index:20}
+.container .card .fb-diff{max-width:100%;overflow-x:auto}
+.week-label{display:block;color:#69478b;font-weight:800;margin:12px 0 4px;font-size:.85rem}
+.week-picker{width:min(310px,90%);padding:9px;border-radius:12px;border:2px solid #cdb2ed;background:white;color:#674586;font-weight:800}
+@media(max-width:799px){.container{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.rainbow-board,.container .card{min-height:clamp(300px,47dvh,440px)}.board-sky{height:calc(100% - 33px)}.container .card{padding:8px 6px}}
+@media(min-width:800px){.rainbow-board,.container .card{min-height:510px}.board-sky{height:calc(100% - 33px)}}
 </style>
 </head>
 <body>
@@ -679,7 +692,7 @@ h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color
   <div class="start-title">Isabella's<br>Spelling Challenge!</div>
   <div class="start-word-count" id="start-word-count">8 words this week</div>
   <div class="start-test-date" id="start-test-date">📅 Test: 28 April 2025</div>
-  <div class="start-word-preview" id="start-word-preview"></div>
+  <label class="week-label" for="week-picker">Choose spelling week</label><select id="week-picker" class="week-picker" onchange="selectSpellingWeek(this.value)"></select><div class="start-word-preview" id="start-word-preview"></div>
   <button class="btn-start" onclick="startGame()">Enter the Meadow! ✨</button>
 </div>
 
@@ -858,6 +871,42 @@ function rainbowReset(){
 
 
 let selectedVoiceName='auto',useClearVoice=false;
+
+/* Persist each encountered weekly list locally, so changing words.js later doesn't erase it. */
+let activeWeekWords=typeof SPELLING_WORDS!=='undefined'?[...SPELLING_WORDS]:[];
+let currentWeekId=typeof TEST_DATE!=='undefined'?TEST_DATE:'Current week';
+function getWeekArchive(){try{return JSON.parse(localStorage.getItem('isabella-week-archive-v1')||'{}')}catch(e){return {}}}
+function setupWeekArchive(){
+ const archive=getWeekArchive(),id=typeof TEST_DATE!=='undefined'?TEST_DATE:'Current week';
+ archive[id]=[...SPELLING_WORDS];
+ try{localStorage.setItem('isabella-week-archive-v1',JSON.stringify(archive))}catch(e){}
+ const picker=document.getElementById('week-picker');if(!picker)return;
+ picker.innerHTML='';
+ Object.keys(archive).reverse().forEach(key=>{const opt=document.createElement('option');opt.value=key;opt.textContent=key===id?'This week — '+key:key;picker.appendChild(opt)});
+ picker.value=id;activeWeekWords=[...SPELLING_WORDS];currentWeekId=id;
+}
+function selectSpellingWeek(id){
+ const archive=getWeekArchive();if(!Array.isArray(archive[id]))return;
+ activeWeekWords=archive[id];currentWeekId=id;words=shuffle([...activeWeekWords]);
+ wordIdx=0;rainbowPosition=0;rainbowAttempts={};score=0;streak=0;missed=[];hints=0;drawRainbow();
+ document.getElementById('start-word-count').textContent=words.length+' words';
+ document.getElementById('start-test-date').textContent='📅 '+id;
+ const preview=document.getElementById('start-word-preview');preview.innerHTML='';
+ words.forEach(w=>{const pill=document.createElement('div');pill.className='preview-pill';pill.textContent=(w.emoji||'⭐')+' '+w.word;preview.appendChild(pill)});
+ buildStars();updateScore();updateStreak();
+}
+function playVictoryFanfare(){
+ try{
+ const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+ const ctx=new C(),notes=[523.25,659.25,783.99,1046.5,1318.5];
+ notes.forEach((freq,i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain(),t=ctx.currentTime+i*.17;
+ osc.type='sine';osc.frequency.setValueAtTime(freq,t);gain.gain.setValueAtTime(.0001,t);
+ gain.gain.exponentialRampToValueAtTime(.17,t+.03);gain.gain.exponentialRampToValueAtTime(.0001,t+.36);
+ osc.connect(gain).connect(ctx.destination);osc.start(t);osc.stop(t+.38)});
+ setTimeout(()=>ctx.close().catch(()=>{}),2300);
+ }catch(e){}
+}
+
 function setupCompactControls(){
  const dock=document.getElementById('bottom-controls');
  const keyboard=document.getElementById('keyboard'),actions=document.querySelector('#main-card .actions');
@@ -866,7 +915,7 @@ function setupCompactControls(){
  voice.innerHTML='<label for="voice-select">🔊 Voice</label><select id="voice-select" aria-label="Pronunciation voice"><option value="auto">Original recording</option><option value="clear">Clear British voice</option></select><button type="button" id="voice-preview">▶ Hear word</button>';
  dock.appendChild(voice);
  const sel=document.getElementById('voice-select');
- try{sel.value=localStorage.getItem('meadow-voice-mode')||'auto'}catch(e){}
+ try{sel.value=localStorage.getItem('meadow-voice-mode')||'clear'}catch(e){}
  useClearVoice=sel.value==='clear';
  sel.addEventListener('change',()=>{useClearVoice=sel.value==='clear';try{localStorage.setItem('meadow-voice-mode',sel.value)}catch(e){};speakWord()});
  document.getElementById('voice-preview').addEventListener('click',speakWord);
@@ -879,6 +928,7 @@ function init() {
   }
   words = shuffle([...SPELLING_WORDS]);
   drawRainbow();
+  setupWeekArchive();
 
   const season = (typeof SEASON !== 'undefined' && SEASONS[SEASON]) ? SEASON : 'spring';
   currentSeason = season;
@@ -1361,7 +1411,7 @@ function checkSpelling() {
     firework();
     speakEncouragement(msg);
     wordIdx++;
-    feedbackTimer = setTimeout(() => { hideFeedback(); if(rainbowPosition===10){celebrate()}else{if(wordIdx>=words.length){words=shuffle([...SPELLING_WORDS]);wordIdx=0;}showWord();} }, 2600);
+    feedbackTimer = setTimeout(() => { hideFeedback(); if(rainbowPosition===10){celebrate()}else{if(wordIdx>=words.length){words=shuffle([...activeWeekWords]);wordIdx=0;}showWord();} }, 2600);
   } else {
     if(!rainbowAttempts[word]){recordRainbow(word,false);rainbowAttempts[word]=true;}
     rainbowPosition=0;drawRainbow();
@@ -1525,23 +1575,22 @@ function firework() {
 function celebrate() {
   _stopAudio(); // cancel any lingering encouragement or definition speech
   document.getElementById('celebration').classList.add('show');
+  playVictoryFanfare();
   launchConfetti();
 
-  const total = words.length;
+  const total = 10;
   const pct   = Math.round(score/total*100);
-  const perfect = score === total && hints === 0;
+  const perfect = rainbowPosition === 10 && hints === 0;
 
   document.getElementById('celeb-icon').textContent =
     perfect ? '👑' : pct === 100 ? '🌟' : pct >= 70 ? '🌟' : '💪';
-  document.getElementById('celeb-title').textContent =
-    perfect ? '🌈 RAINBOW CASTLE! 🌈' : pct === 100 ? 'All correct! 🌟' : pct >= 70 ? 'Great Job! 🌟' : 'Keep Practising! 💪';
-  document.getElementById('celeb-score').textContent =
-    `${score} / ${total} correct ⭐`;
+  document.getElementById('celeb-title').textContent = '🎉 TA-DA! RAINBOW CASTLE! 🌈';
+  document.getElementById('celeb-score').textContent = '10 jumps to the castle! 🦄✨';
   document.getElementById('celeb-hints').textContent =
     hints === 0 ? '💡 No hints used — amazing!' : `💡 ${hints} hint${hints !== 1 ? 's' : ''} used`;
 
   let mainMsg = '';
-  if (perfect) {
+  if (rainbowPosition===10) {
     mainMsg = 'Isabella, you spelled every word right with no hints! You\'re incredible! 👑';
   } else if (pct === 100) {
     mainMsg = `Well done, Isabella! All ${total} words correct! Next time try with no hints! 💡`;
@@ -1579,7 +1628,7 @@ function launchConfetti() {
 function playAgain() {
   document.getElementById('celebration').classList.remove('show');
   rainbowPosition=0;rainbowAttempts={};drawRainbow();
-  words = shuffle([...SPELLING_WORDS]);
+  words = shuffle([...activeWeekWords]);
   wordIdx=0; score=0; streak=0; missed=[]; hints=0;
   buildStars(); updateScore(); updateStreak();
   // Show start screen again (re-populates preview with new shuffle)
