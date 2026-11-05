@@ -639,6 +639,37 @@ h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color
 .kb-key{width:clamp(23px,7.5vw,42px);min-width:0}
 .kb-key.kb-del{width:clamp(38px,11vw,60px)!important}
 @media(max-width:380px){.keyboard{gap:5px}.kb-key{font-size:.96rem;padding:10px 0}}
+
+/* Compact phone-first two-column playfield with full-width keyboard */
+.container{display:grid;grid-template-columns:minmax(0,42%) minmax(0,58%);column-gap:7px;row-gap:7px;align-content:start;padding:5px 7px 10px;min-height:0}
+.container header{grid-column:1/-1;padding:0}.container header .hd-icon{display:none}
+.container h1{font-size:clamp(1.05rem,4vw,1.55rem);line-height:1.1;margin:0}
+.container .hd-sub{font-size:.69rem}.tts-warn{grid-column:1/-1}
+.rainbow-board{grid-column:1;grid-row:2;margin:0;min-width:0;border-radius:15px;border-width:2px}
+.board-sky{height:clamp(235px,47dvh,440px)}
+.rainbow-step{width:clamp(21px,5vw,36px);height:clamp(15px,3.5vw,23px);font-size:.6rem;box-shadow:0 3px 0 #78618e,0 4px 6px #45395d66}
+.board-pip{font-size:clamp(1.35rem,5vw,2.3rem)}
+.board-status{padding:5px 3px;font-size:.65rem;line-height:1.1}
+.container .card{grid-column:2;grid-row:2;margin:0;min-width:0;width:100%;padding:8px 5px;border-radius:15px}
+.meadow-buddy{display:none}.word-counter{font-size:.62rem;margin-bottom:3px}
+.word-definition{margin-bottom:5px!important;padding:4px!important}
+.word-def-emoji{font-size:1.5rem!important}
+.word-def-text{font-size:.73rem!important}
+.listen-area{gap:4px;margin-bottom:8px}.btn-listen{font-size:1.9rem}.btn-hint{font-size:.7rem;padding:5px}
+.spelling-display{margin-bottom:8px;min-height:36px;gap:2px}
+.letter-box{border-width:2px;border-radius:6px}
+.hint-box{font-size:.75rem;padding:5px;margin-bottom:5px}
+.bottom-controls{grid-column:1/-1;grid-row:3;background:#fffafef2;border:2px solid #fff;border-radius:17px;padding:7px;box-shadow:0 4px 15px #7655a61c}
+.bottom-controls .keyboard{margin:0 0 9px;gap:5px}
+.bottom-controls .kb-row{gap:clamp(2px,.9vw,5px)}
+.bottom-controls .kb-key{width:min(8.2vw,43px);height:clamp(35px,5.5dvh,48px);padding:0;font-size:1rem}
+.bottom-controls .kb-key.kb-del{width:min(11vw,58px)!important}
+.bottom-controls .actions{margin:0;gap:7px}.bottom-controls .btn-check,.bottom-controls .btn-skip{padding:8px;font-size:1rem;border-radius:12px}
+.voice-settings{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;color:#745797;font-size:.73rem;font-weight:800}
+.voice-settings select{min-width:0;max-width:160px;border:1px solid #cbb3e2;border-radius:8px;padding:4px;background:white;color:#604188;font-size:.73rem}
+.voice-settings button{border:0;border-radius:8px;background:#eee1fc;color:#62418a;padding:5px;font-weight:800;font-size:.7rem}
+@media(min-width:800px){.container{max-width:960px;grid-template-columns:1fr 1fr;column-gap:16px;row-gap:12px;padding:14px}.container header{grid-column:1/-1}.rainbow-board{grid-column:1;grid-row:2}.container .card{grid-column:2;grid-row:2;padding:20px}.bottom-controls{grid-column:1/-1;grid-row:3}.board-sky{height:490px}.rainbow-step{width:50px;height:32px;font-size:1rem}.bottom-controls .kb-key{width:48px}}
+@media(max-height:700px) and (max-width:799px){.board-sky{height:clamp(195px,39dvh,280px)}.container h1{font-size:1.1rem}.bottom-controls .kb-key{height:34px}.voice-settings{margin-top:4px}}
 </style>
 </head>
 <body>
@@ -665,7 +696,7 @@ h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color
     ⚠️ Text-to-speech isn't available in this browser. Try Chrome or Safari!
   </div>
 
-  <section class="rainbow-board" aria-label="Pip's rainbow adventure"><div class="board-sky"><svg class="meadow-landscape" viewBox="0 0 500 650" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="skyPaint" x2="0" y2="1"><stop stop-color="#86c8ff"/><stop offset=".52" stop-color="#d8ecff"/><stop offset="1" stop-color="#fff3c9"/></linearGradient><linearGradient id="grassPaint" x2="0" y2="1"><stop stop-color="#c4ee8a"/><stop offset="1" stop-color="#4cad66"/></linearGradient><linearGradient id="waterPaint" x2="1" y2="1"><stop stop-color="#f2ffff"/><stop offset=".5" stop-color="#70d5ed"/><stop offset="1" stop-color="#247da8"/></linearGradient><linearGradient id="rainbowPaint" x2="0" y2="1"><stop stop-color="#f781bd"/><stop offset=".2" stop-color="#f7a772"/><stop offset=".4" stop-color="#f9e98d"/><stop offset=".6" stop-color="#8fdbad"/><stop offset=".8" stop-color="#88bff5"/><stop offset="1" stop-color="#ba9aef"/></linearGradient><filter id="softGlow"><feGaussianBlur stdDeviation="6"/></filter></defs><rect width="500" height="650" fill="url(#skyPaint)"/><circle cx="415" cy="72" r="48" fill="#fff9cb" opacity=".85" filter="url(#softGlow)"/><g fill="#fff" opacity=".8"><ellipse cx="80" cy="90" rx="95" ry="25"/><ellipse cx="140" cy="84" rx="65" ry="30"/><ellipse cx="430" cy="150" rx="90" ry="23"/></g><path d="M-70 330 Q70 185 190 285 Q320 125 570 292 L550 480 -40 480Z" fill="#8fc9ab"/><path d="M-30 350 Q150 235 280 340 Q410 220 530 320 L520 550 -30 550Z" fill="#6caf8d"/><path d="M-20 450 Q110 350 220 402 Q360 320 530 385 L520 660 -20 660Z" fill="url(#grassPaint)"/><path d="M365 335 Q390 390 320 452 Q280 510 410 555 Q475 596 390 680 L540 680 L540 380Z" fill="url(#waterPaint)" opacity=".92"/><path d="M355 345 Q392 399 315 453 Q277 515 401 558" fill="none" stroke="#e8ffff" stroke-width="9" opacity=".75"/><path d="M450 335 Q410 360 370 405" fill="none" stroke="#d6ffff" stroke-width="20" opacity=".75"/><path d="M135 212 Q270 -45 420 210" fill="none" stroke="#f18dba" stroke-width="31" opacity=".88"/><path d="M145 212 Q270 -24 411 210" fill="none" stroke="#f9dc81" stroke-width="22" opacity=".92"/><path d="M153 212 Q270 -7 403 210" fill="none" stroke="#9ce3bb" stroke-width="13" opacity=".96"/><path d="M160 212 Q270 10 396 210" fill="none" stroke="#a9b9f5" stroke-width="7" opacity=".98"/><g transform="translate(284 102)"><path d="M-70 94 L-70 12 -48 -18 -26 12 -26 94Z" fill="#d9c5fa" stroke="#9772c8" stroke-width="3"/><path d="M-12 94 L-12 -14 12 -58 36 -14 36 94Z" fill="#f2dafa" stroke="#9772c8" stroke-width="3"/><path d="M45 94 L45 6 66 -30 88 6 88 94Z" fill="#c6b7f6" stroke="#9772c8" stroke-width="3"/><path d="M-79 17 L-48 -35 -17 17Z M-20 -9 L12 -81 45 -9Z M36 12 L66 -48 96 12Z" fill="#8d78cb"/><path d="M-75 94 H93" stroke="#fff4c8" stroke-width="13"/><path d="M0 94 V58 Q12 32 24 58 V94" fill="#8c6bb3"/><g fill="#ffeeb7"><rect x="-53" y="30" width="12" height="19" rx="6"/><rect x="59" y="30" width="12" height="19" rx="6"/><rect x="7" y="-13" width="10" height="18" rx="5"/></g></g><g fill="#446e52"><path d="M0 0 L70 0 Q25 85 30 190 L0 240Z" fill="#684a55"/><ellipse cx="40" cy="50" rx="100" ry="85" fill="#397f65"/><ellipse cx="102" cy="42" rx="90" ry="67" fill="#5aa879"/><ellipse cx="-12" cy="72" rx="80" ry="64" fill="#67b780"/></g><g fill="#f5a5cb" opacity=".9"><circle cx="36" cy="54" r="10"/><circle cx="102" cy="83" r="9"/><circle cx="69" cy="17" r="8"/><circle cx="149" cy="61" r="9"/></g><g fill="#fff3d4" opacity=".8"><circle cx="202" cy="310" r="4"/><circle cx="414" cy="294" r="5"/><circle cx="270" cy="420" r="4"/><circle cx="480" cy="474" r="4"/></g><g fill="#ff83b7"><circle cx="42" cy="520" r="12"/><circle cx="140" cy="587" r="9"/><circle cx="270" cy="560" r="10"/><circle cx="450" cy="612" r="12"/></g><g fill="#fff3a2"><circle cx="42" cy="520" r="5"/><circle cx="140" cy="587" r="4"/><circle cx="270" cy="560" r="5"/><circle cx="450" cy="612" r="5"/></g></svg><div class="rainbow-steps" id="rainbow-steps"></div><span class="board-pip" id="board-pip">🦄</span></div><div class="board-status" id="board-status">Help Pip climb 10 steps to the rainbow!</div></section><div class="progress-strip">
+  <section class="rainbow-board" aria-label="Pip's rainbow adventure"><div class="board-sky"><svg class="meadow-landscape" viewBox="0 0 500 650" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="skyPaint" x2="0" y2="1"><stop stop-color="#86c8ff"/><stop offset=".52" stop-color="#d8ecff"/><stop offset="1" stop-color="#fff3c9"/></linearGradient><linearGradient id="grassPaint" x2="0" y2="1"><stop stop-color="#c4ee8a"/><stop offset="1" stop-color="#4cad66"/></linearGradient><linearGradient id="waterPaint" x2="1" y2="1"><stop stop-color="#f2ffff"/><stop offset=".5" stop-color="#70d5ed"/><stop offset="1" stop-color="#247da8"/></linearGradient><linearGradient id="rainbowPaint" x2="0" y2="1"><stop stop-color="#f781bd"/><stop offset=".2" stop-color="#f7a772"/><stop offset=".4" stop-color="#f9e98d"/><stop offset=".6" stop-color="#8fdbad"/><stop offset=".8" stop-color="#88bff5"/><stop offset="1" stop-color="#ba9aef"/></linearGradient><filter id="softGlow"><feGaussianBlur stdDeviation="6"/></filter></defs><rect width="500" height="650" fill="url(#skyPaint)"/><circle cx="415" cy="72" r="48" fill="#fff9cb" opacity=".85" filter="url(#softGlow)"/><g fill="#fff" opacity=".8"><ellipse cx="80" cy="90" rx="95" ry="25"/><ellipse cx="140" cy="84" rx="65" ry="30"/><ellipse cx="430" cy="150" rx="90" ry="23"/></g><path d="M-70 330 Q70 185 190 285 Q320 125 570 292 L550 480 -40 480Z" fill="#8fc9ab"/><path d="M-30 350 Q150 235 280 340 Q410 220 530 320 L520 550 -30 550Z" fill="#6caf8d"/><path d="M-20 450 Q110 350 220 402 Q360 320 530 385 L520 660 -20 660Z" fill="url(#grassPaint)"/><path d="M365 335 Q390 390 320 452 Q280 510 410 555 Q475 596 390 680 L540 680 L540 380Z" fill="url(#waterPaint)" opacity=".92"/><path d="M355 345 Q392 399 315 453 Q277 515 401 558" fill="none" stroke="#e8ffff" stroke-width="9" opacity=".75"/><path d="M450 335 Q410 360 370 405" fill="none" stroke="#d6ffff" stroke-width="20" opacity=".75"/><path d="M135 212 Q270 -45 420 210" fill="none" stroke="#f18dba" stroke-width="31" opacity=".88"/><path d="M145 212 Q270 -24 411 210" fill="none" stroke="#f9dc81" stroke-width="22" opacity=".92"/><path d="M153 212 Q270 -7 403 210" fill="none" stroke="#9ce3bb" stroke-width="13" opacity=".96"/><path d="M160 212 Q270 10 396 210" fill="none" stroke="#a9b9f5" stroke-width="7" opacity=".98"/><g transform="translate(284 102)"><path d="M-70 94 L-70 12 -48 -18 -26 12 -26 94Z" fill="#d9c5fa" stroke="#9772c8" stroke-width="3"/><path d="M-12 94 L-12 -14 12 -58 36 -14 36 94Z" fill="#f2dafa" stroke="#9772c8" stroke-width="3"/><path d="M45 94 L45 6 66 -30 88 6 88 94Z" fill="#c6b7f6" stroke="#9772c8" stroke-width="3"/><path d="M-79 17 L-48 -35 -17 17Z M-20 -9 L12 -81 45 -9Z M36 12 L66 -48 96 12Z" fill="#8d78cb"/><path d="M-75 94 H93" stroke="#fff4c8" stroke-width="13"/><path d="M0 94 V58 Q12 32 24 58 V94" fill="#8c6bb3"/><g fill="#ffeeb7"><rect x="-53" y="30" width="12" height="19" rx="6"/><rect x="59" y="30" width="12" height="19" rx="6"/><rect x="7" y="-13" width="10" height="18" rx="5"/></g></g><g fill="#446e52"><path d="M0 0 L70 0 Q25 85 30 190 L0 240Z" fill="#684a55"/><ellipse cx="40" cy="50" rx="100" ry="85" fill="#397f65"/><ellipse cx="102" cy="42" rx="90" ry="67" fill="#5aa879"/><ellipse cx="-12" cy="72" rx="80" ry="64" fill="#67b780"/></g><g fill="#f5a5cb" opacity=".9"><circle cx="36" cy="54" r="10"/><circle cx="102" cy="83" r="9"/><circle cx="69" cy="17" r="8"/><circle cx="149" cy="61" r="9"/></g><g fill="#fff3d4" opacity=".8"><circle cx="202" cy="310" r="4"/><circle cx="414" cy="294" r="5"/><circle cx="270" cy="420" r="4"/><circle cx="480" cy="474" r="4"/></g><g fill="#ff83b7"><circle cx="42" cy="520" r="12"/><circle cx="140" cy="587" r="9"/><circle cx="270" cy="560" r="10"/><circle cx="450" cy="612" r="12"/></g><g fill="#fff3a2"><circle cx="42" cy="520" r="5"/><circle cx="140" cy="587" r="4"/><circle cx="270" cy="560" r="5"/><circle cx="450" cy="612" r="5"/></g></svg><div class="rainbow-steps" id="rainbow-steps"></div><span class="board-pip" id="board-pip">🦄</span></div><div class="board-status" id="board-status">Help Pip climb 10 steps to the rainbow!</div></section><div class="progress-strip" style="display:none">
     <div class="strip-top">
       <span class="strip-label" id="strip-label">Word 1 of 8</span>
       <span class="score-pill">⭐ <span id="score-count">0</span></span>
@@ -685,7 +716,7 @@ h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color
 
     <div class="listen-area">
       <button class="btn-listen" id="btn-listen" onclick="speakWord()" title="Hear the word">🔊</button>
-      <button class="btn-hint" id="btn-hint" onclick="useHint()">💡 Spelling</button>
+      <button class="btn-hint" id="btn-hint" onclick="useHint()">💡 Hint</button>
     </div>
 
     <div class="hint-box" id="hint-box" style="display:none"></div>
@@ -711,6 +742,7 @@ h1,.season-autumn h1,.season-spring h1,.season-summer h1,.season-winter h1{color
       <button class="btn-try-again" id="btn-try-again" onclick="tryAgain()" style="display:none">👂 Try Again!</button>
     </div>
   </div>
+  <div class="bottom-controls" id="bottom-controls"></div>
 </div>
 
 <!-- celebration -->
@@ -810,10 +842,10 @@ let rainbowPosition=0, rainbowSession=0, rainbowAttempts={};
 function drawRainbow(){
  const area=document.getElementById('rainbow-steps');if(!area)return;
  area.innerHTML='';
- rainbowCoords.forEach(([x,y],i)=>{const stone=document.createElement('span');stone.className='rainbow-step'+(i<rainbowPosition?' done':'');stone.textContent=i+1;stone.style.setProperty('--x',x+'%');stone.style.setProperty('--y',y+'%');area.appendChild(stone)});
+ rainbowCoords.forEach(([x,y],i)=>{const stone=document.createElement('span');stone.className='rainbow-step'+(i<rainbowPosition?' done':'');stone.textContent='✦';stone.style.setProperty('--x',x+'%');stone.style.setProperty('--y',y+'%');area.appendChild(stone)});
  const pip=document.getElementById('board-pip');const coord=rainbowPosition?rainbowCoords[rainbowPosition-1]:[2,1];
  pip.style.setProperty('--pip-x',coord[0]+'%');pip.style.setProperty('--pip-y',(coord[1]+6)+'%');
- document.getElementById('board-status').textContent=rainbowPosition===10?'🌈 Pip reached the rainbow castle!':rainbowPosition+' / 10 steps — '+(rainbowPosition?'Keep climbing! ✨':'Help Pip climb to the rainbow!');
+ document.getElementById('board-status').textContent=rainbowPosition===10?'🌈 Pip reached the castle!':rainbowPosition?'Pip is climbing! ✨':'Help Pip reach the rainbow!';
 }
 function recordRainbow(word,ok){
  try{const key='isabella-magic-meadow-history-v1';const data=JSON.parse(localStorage.getItem(key)||'{}');const row=data[word]||{correct:0,wrong:0,dates:[]};row[ok?'correct':'wrong']++;row.dates.push({date:new Date().toISOString().slice(0,10),correct:ok});data[word]=row;localStorage.setItem(key,JSON.stringify(data))}catch(e){}
@@ -822,6 +854,22 @@ function rainbowReset(){
  if(feedbackTimer)clearTimeout(feedbackTimer);
  rainbowPosition=0;rainbowAttempts={};rainbowSession++;
  words=shuffle([...SPELLING_WORDS]);wordIdx=0;score=0;streak=0;missed=[];hints=0;updateScore();updateStreak();buildStars();drawRainbow();showWord();
+}
+
+
+let selectedVoiceName='auto',useClearVoice=false;
+function setupCompactControls(){
+ const dock=document.getElementById('bottom-controls');
+ const keyboard=document.getElementById('keyboard'),actions=document.querySelector('#main-card .actions');
+ if(dock&&keyboard&&actions){dock.appendChild(keyboard);dock.appendChild(actions);}
+ const voice=document.createElement('div');voice.className='voice-settings';
+ voice.innerHTML='<label for="voice-select">🔊 Voice</label><select id="voice-select" aria-label="Pronunciation voice"><option value="auto">Original recording</option><option value="clear">Clear British voice</option></select><button type="button" id="voice-preview">▶ Hear word</button>';
+ dock.appendChild(voice);
+ const sel=document.getElementById('voice-select');
+ try{sel.value=localStorage.getItem('meadow-voice-mode')||'auto'}catch(e){}
+ useClearVoice=sel.value==='clear';
+ sel.addEventListener('change',()=>{useClearVoice=sel.value==='clear';try{localStorage.setItem('meadow-voice-mode',sel.value)}catch(e){};speakWord()});
+ document.getElementById('voice-preview').addEventListener('click',speakWord);
 }
 
 function init() {
@@ -836,6 +884,7 @@ function init() {
   currentSeason = season;
   applySeason(season);
   buildKeyboard();
+  setupCompactControls();
   buildStars();
   checkTTS();
 
@@ -1231,7 +1280,7 @@ function _speakTTS(text, rate, pitch) {
   const utter = new SpeechSynthesisUtterance(text);
   const voice = getBestVoice();
   if (voice) utter.voice = voice;
-  utter.rate = rate; utter.pitch = pitch; utter.lang = 'en-GB';
+  utter.rate = useClearVoice ? 0.76 : rate; utter.pitch = useClearVoice ? 1 : pitch; utter.lang = 'en-GB';
   window.speechSynthesis.speak(utter);
 }
 
@@ -1239,7 +1288,7 @@ function _speakTTS(text, rate, pitch) {
 // iOS keeps a pre-unlocked Audio element playable even outside a gesture.
 // Creating new Audio() each time loses that unlocked state.
 const _wordAudioEl = new Audio();
-_wordAudioEl.playbackRate = 0.9;
+_wordAudioEl.playbackRate = 1.0;
 const _encAudioEl = new Audio();
 
 // ── Public speak functions ────────────────────────────
@@ -1250,7 +1299,7 @@ function speakWord() {
   const btn  = document.getElementById('btn-listen');
   const cachedUrl = _audioCache[word];
 
-  if (cachedUrl) {
+  if (cachedUrl && !useClearVoice) {
     btn.classList.add('speaking');
     _wordAudioEl.src = cachedUrl;
     _currentAudio = _wordAudioEl;
