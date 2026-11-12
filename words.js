@@ -1,26 +1,16 @@
-// ─────────────────────────────────────────────────────────────
-//  WEEKLY SPELLING WORDS  —  edit this file each week!
-//  Each entry needs a "word". The "hint" is optional but helps
-//  if Isabella gets stuck. You can also add an "emoji" for fun.
-// ─────────────────────────────────────────────────────────────
-
+// Weekly spelling words for Isabella
 const SPELLING_WORDS = [
-  { word: "age", hint: "How old you are", emoji: "🎂" },
-  { word: "huge", hint: "Really, really big", emoji: "🐘" },
-  { word: "change", hint: "To make something different", emoji: "🔄" },
-  { word: "charge", hint: "To fill a battery with power", emoji: "🔋" },
-  { word: "village", hint: "A small place where people live", emoji: "🏡" },
-  { word: "strange", hint: "Unusual or a bit odd", emoji: "👽" },
-  { word: "badge", hint: "Something you pin onto your clothes", emoji: "🏅" },
-  { word: "edge", hint: "The outside border of something", emoji: "📐" },
-  { word: "bridge", hint: "Something you cross over a river", emoji: "🌉" },
-  { word: "dodge", hint: "To move quickly out of the way", emoji: "🏃" }
+  { word: "door", hint: "You open this to enter a room", emoji: "🚪" },
+  { word: "floor", hint: "The surface you walk on indoors", emoji: "🏠" },
+  { word: "because", hint: "A word that explains why something happened", emoji: "💭" },
+  { word: "find", hint: "To discover something you were looking for", emoji: "🔎" },
+  { word: "mind", hint: "You use this to think and remember", emoji: "🧠" },
+  { word: "behind", hint: "At the back of something", emoji: "👀" },
+  { word: "child", hint: "A young person", emoji: "🧒" },
+  { word: "children", hint: "More than one child", emoji: "👧" },
+  { word: "wild", hint: "An animal that lives freely in nature", emoji: "🦊" },
+  { word: "climb", hint: "To go up a tree or mountain", emoji: "🧗" }
 ];
 
-// The date of this week's test — shown on the start screen.
-// Update this each week alongside the words.
-const TEST_DATE = "Friday 6th November 2026";
-
-// Optional: set the season theme for this week.
-// Choices: "spring" | "summer" | "autumn" | "winter"
+const TEST_DATE = "Monday 16th November 2026";
 const SEASON = "autumn";
