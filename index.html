@@ -872,18 +872,46 @@ function rainbowReset(){
 
 let selectedVoiceName='auto',useClearVoice=false;
 
-/* Persist each encountered weekly list locally, so changing words.js later doesn't erase it. */
+/* Historical spelling weeks are loaded from the permanent GitHub archive.
+   Older browser-local weeks remain available, and learning records stay local. */
+const ARCHIVE_FILES=["words 1 June.js","words 11th May.js","words 13 July.js","words 15 June.js","words 18 sept.js","words 20 April.js","words 22 June.js","words 27 April.js","words 28 may.js","words 29 june.js","words 5th May.js","words 6 November 2026.js","words 6 july.js","words 8 june.js","words16 oct.js","words23oct.js","words25sep.js","words2nd oct.js","words9Oct.js"];
+let bundledWeeks={};
 let activeWeekWords=typeof SPELLING_WORDS!=='undefined'?[...SPELLING_WORDS]:[];
 let currentWeekId=typeof TEST_DATE!=='undefined'?TEST_DATE:'Current week';
-function getWeekArchive(){try{return JSON.parse(localStorage.getItem('isabella-week-archive-v1')||'{}')}catch(e){return {}}}
+function getWeekArchive(){
+ let local={};try{local=JSON.parse(localStorage.getItem('isabella-week-archive-v1')||'{}')}catch(e){}
+ return {...local,...bundledWeeks,[TEST_DATE]:[...SPELLING_WORDS]};
+}
+function sortWeekDate(label){
+ const months={january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+ const m=label.match(/(\d{1,2})(?:st|nd|rd|th)?\s+([a-z]+)\s+(\d{4})/i);
+ return m?new Date(+m[3],months[m[2].toLowerCase()]??0,+m[1]).getTime():0;
+}
 function setupWeekArchive(){
- const archive=getWeekArchive(),id=typeof TEST_DATE!=='undefined'?TEST_DATE:'Current week';
- archive[id]=[...SPELLING_WORDS];
+ const archive=getWeekArchive(),id=TEST_DATE;
  try{localStorage.setItem('isabella-week-archive-v1',JSON.stringify(archive))}catch(e){}
  const picker=document.getElementById('week-picker');if(!picker)return;
- picker.innerHTML='';
- Object.keys(archive).reverse().forEach(key=>{const opt=document.createElement('option');opt.value=key;opt.textContent=key===id?'This week — '+key:key;picker.appendChild(opt)});
- picker.value=id;activeWeekWords=[...SPELLING_WORDS];currentWeekId=id;
+ const previous=picker.value||id;picker.innerHTML='';
+ Object.keys(archive).sort((a,b)=>sortWeekDate(b)-sortWeekDate(a)).forEach(key=>{
+  const opt=document.createElement('option');opt.value=key;
+  opt.textContent=key===id?'This week — '+key:key;picker.appendChild(opt);
+ });
+ picker.value=archive[previous]?previous:id;
+ if(!archive[previous]){activeWeekWords=[...SPELLING_WORDS];currentWeekId=id;}
+}
+async function loadHistoricalWeeks(){
+ await Promise.all(ARCHIVE_FILES.map(async name=>{
+  try{
+   const response=await fetch('words%20archive/'+encodeURIComponent(name),{cache:'no-cache'});
+   if(!response.ok)return;
+   const source=await response.text();
+   const date=source.match(/const TEST_DATE\s*=\s*["']([^"']+)/)?.[1];
+   const entries=[...source.matchAll(/\{\s*word:\s*"([^"]+)"\s*,\s*hint:\s*"([^"]*)"\s*,\s*emoji:\s*"([^"]*)"\s*\}/g)]
+    .map(m=>({word:m[1],hint:m[2],emoji:m[3]}));
+   if(date&&entries.length&&(!bundledWeeks[date]||entries.length>bundledWeeks[date].length))bundledWeeks[date]=entries;
+  }catch(e){console.warn('Archive unavailable:',name,e)}
+ }));
+ setupWeekArchive();
 }
 function selectSpellingWeek(id){
  const archive=getWeekArchive();if(!Array.isArray(archive[id]))return;
@@ -929,6 +957,7 @@ function init() {
   words = shuffle([...SPELLING_WORDS]);
   drawRainbow();
   setupWeekArchive();
+  loadHistoricalWeeks();
 
   const season = (typeof SEASON !== 'undefined' && SEASONS[SEASON]) ? SEASON : 'spring';
   currentSeason = season;
