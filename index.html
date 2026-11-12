@@ -907,7 +907,7 @@ async function loadHistoricalWeeks(){
    const source=await response.text();
    const date=source.match(/const TEST_DATE\s*=\s*["']([^"']+)/)?.[1];
    const entries=[...source.matchAll(/\{\s*word:\s*"([^"]+)"\s*,\s*hint:\s*"([^"]*)"\s*,\s*emoji:\s*"([^"]*)"\s*\}/g)]
-    .map(m=>({word:m[1],hint:m[2],emoji:m[3]}));
+    .map(m=>({word:m[1].trim(),hint:m[2].trim(),emoji:m[3]}));
    if(date&&entries.length&&(!bundledWeeks[date]||entries.length>bundledWeeks[date].length))bundledWeeks[date]=entries;
   }catch(e){console.warn('Archive unavailable:',name,e)}
  }));
